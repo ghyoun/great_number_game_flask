@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="css/index.css")}}">
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div id="wrapper">
+        <h1>Welcome to the Great Number Game!</h1>
+        <h2>I am thinking of a number between 1 and 100</h2>
+        <h2>Take a guess!</h2>
+        {% with errors = get_flashed_messages(category_filter=["error"]) %}
+        {% if errors %}
+        <div class="error">
+            {%- for content in errors %}
+            <p>{{content}}</p>
+            {% endfor -%}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        {% with successes = get_flashed_messages(category_filter=["success"]) %}
+    	{% if successes %}
+    	<div class="success">
+    		{%- for content in successes %}
+    		<p>{{content}}</p>
+    		{% endfor -%}
+    		<form action='/restart' method='post'>
+    			<input class="button" type='submit' name='reset' value='Play Again!'>
+    		</form>
+    	</div>
+    	{% endif %}
+    	{% endwith %}
+
+        <form action='/guess' method='post'>
+            <input id='number' type='number' name='guess'>
+            <input class="button" type='submit'>
+        </form>
+    </div>
+</body>
+</html>
